@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    
+      KunquSinger：昆曲唱词歌声合成的深度学习方法与优化 &middot; KunquSinger
+    
+  </title>
+
+  <link rel="stylesheet" href="/KunquSinger-demo/styles.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/KunquSinger-demo/assets/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/KunquSinger-demo/assets/favicon.ico">
+  <link rel="alternate" type="application/atom+xml" title="KunquSinger" href="/KunquSinger-demo/atom.xml">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="KunquSinger：昆曲唱词歌声合成的深度学习方法与优化" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://darkecho427.github.io/KunquSinger-demo/2025/04/25/kunqusinger/" />
+<meta property="og:url" content="https://darkecho427.github.io/KunquSinger-demo/2025/04/25/kunqusinger/" />
+<meta property="og:site_name" content="KunquSinger" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-04-25T00:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="KunquSinger：昆曲唱词歌声合成的深度学习方法与优化" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-04-25T00:00:00+08:00","datePublished":"2025-04-25T00:00:00+08:00","headline":"KunquSinger：昆曲唱词歌声合成的深度学习方法与优化","mainEntityOfPage":{"@type":"WebPage","@id":"https://darkecho427.github.io/KunquSinger-demo/2025/04/25/kunqusinger/"},"url":"https://darkecho427.github.io/KunquSinger-demo/2025/04/25/kunqusinger/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+
+  <body>
+
+    <div class="container content">
+      <!-- <header class="masthead">
+        <h3 class="masthead-title">
+          <a href="/KunquSinger-demo/" title="Home">KunquSinger</a>
+          <small>Kunqu opera singing voice synthesis</small>
+        </h3>
+      </header> -->
+
+      <main>
+        <article class="page">
+  <h1 class="page-title">KunquSinger：昆曲唱词歌声合成的深度学习方法与优化</h1>
+  <ul id="markdown-toc">
+  <li><a href="#系统示意图" id="markdown-toc-系统示意图">系统示意图</a></li>
+  <li><a href="#demo样例" id="markdown-toc-demo样例">Demo样例</a>    <ul>
+      <li><a href="#小生" id="markdown-toc-小生">小生</a></li>
+      <li><a href="#旦角" id="markdown-toc-旦角">旦角</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="系统示意图">系统示意图</h2>
+
+<p>下图展示了昆曲歌声合成系统 KunquSinger 的整体架构。</p>
+
+<div style="display: flex; justify-content: center;">
+  <img src="assets/kunqusinger-system-overview.jpg" style="max-width: 60%; height: auto;" alt="系统示意图" />
+</div>
+
+<h2 id="demo样例">Demo样例</h2>
+
+<h3 id="小生">小生</h3>
+
+<div class="sample-container">
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：赤紧的离了渔阳</span></p>
+            <p><span class="ziyin-sequence">音素序列：Chi--i-3|Ji-i-in-3|Di--i-3|Li--i-2|Li-i-au-3|Yv--v-2|Yi-i-ang-2</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：D#f0222|D#g0242|D#f0262|D#g0202|D#f0221 g0231|D#i0242|D#i0264</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/赤紧的离了渔阳_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/赤紧的离了渔阳_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/赤紧的离了渔阳_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/赤紧的离了渔阳_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/赤紧的离了渔阳_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：俺也不和他评高下</span></p>
+            <p><span class="ziyin-sequence">音素序列：--an-3|Yi--ie-3|Bu--u-3|H--o-2|T--a-1|Pi-i-ing-2|G--au-1|Xi-i-a-5</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：D#l0442|D#m0461 l0471|D#j0481 i0491|D#j04a4|D#l04e1 m04f1|D#o0404|D#n0442 m0462|D#l0486 m04e2</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/俺也不和他评高下_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/俺也不和他评高下_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/俺也不和他评高下_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/俺也不和他评高下_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/俺也不和他评高下_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：他抱琵琶悠悠洛川</span></p>
+            <p><span class="ziyin-sequence">音素序列：T--a-1|B--au-5|Pi--i-2|P--a-2|Yi-i-ou-1|Yi-i-ou-1|L--o0-6|Chv-v-van-1</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：D#l0222|D#mo244|D#j0204|D#j0243 l0271 m0202 m0221 l0231 j0244|D#h0202|D#h0222|D#e0242 f0262|D#h0204</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/他抱琵琶悠悠洛川_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/他抱琵琶悠悠洛川_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/他抱琵琶悠悠洛川_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/他抱琵琶悠悠洛川_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/他抱琵琶悠悠洛川_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：正青春盈盈妙年</span></p>
+            <p><span class="ziyin-sequence">音素序列：Zh--eng-4|Ci-i-ing-1|Chv-v-vn-1|Yi-i-ing-2|Yi-i-ing-2|Mi-i-au-5|Ni-i-ian-2</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：D#l0242 j0262|D#i0202 j0221 i0231|D#h0246|D#e0224|D#f0261 h0271|D#ij202 h0222|D#f0242 h0264</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/正青春盈盈妙年_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/正青春盈盈妙年_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/正青春盈盈妙年_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/正青春盈盈妙年_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/正青春盈盈妙年_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+</div>
+
+<h3 id="旦角">旦角</h3>
+
+<div class="sample-container">
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：把人唬杀</span></p>
+            <p><span class="ziyin-sequence">音素序列：B--a-3|R--en-2|Xi-i-a-4|Sh--a0-6</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：G#f04e2|G#e0404 f0444|G#f0482 i04a2 i04c2 h04e1 f04f1|G#e0404 fz444 e0484</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/把人唬杀_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/把人唬杀_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/把人唬杀_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/把人唬杀_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/把人唬杀_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：果然是冰清玉润</span></p>
+            <p><span class="ziyin-sequence">音素序列：G--o-3|Ri-i-ian-2|Sh--ri-5|Bi-i-ing-1|Ci-i-ing-1|Yv--u0-6|Rv--vn-5</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：G#i0482 h04a1 i04b1|G#h04c2|G#i04e2|G#j0404 l0444|G#j0488 j0402 j0422 j0442 i0462|G#h0484 i04c2 j04e2|G#i0401 l0411 j0421 i0431 h0444</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/果然是冰清玉润_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/果然是冰清玉润_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/果然是冰清玉润_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/果然是冰清玉润_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/果然是冰清玉润_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：降龙的恼着我</span></p>
+            <p><span class="ziyin-sequence">音素序列：Xi-i-ang-2|L--ong-2|Di--i0-6|N--au-3|Zh--o0-6|Ng--o-3</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：G#h0222|G#h0242|G#i0261 j0271|G#l0202 j0221 i0231|G#j0244|G#l0202 h0222 i024c</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/降龙的恼着我_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/降龙的恼着我_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/降龙的恼着我_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/降龙的恼着我_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/降龙的恼着我_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：一个儿手托香腮</span></p>
+            <p><span class="ziyin-sequence">音素序列：Yi--i0-6|G--o-4|Rh--ri-2|Sh--ou-3|T--o0-6|Xi-i-ang-1|S--ai-1</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：G#e0444|G#fh484|G#c04c2 b04e2|G#c0406 e0462|G#f0483 i04b1 hz4c4|G#f0408|G#f048c</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/一个儿手托香腮_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/一个儿手托香腮_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/一个儿手托香腮_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/一个儿手托香腮_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/一个儿手托香腮_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+        <div class="sample">
+            <p><span class="lyrics-text">歌词文本：似这般都付与断井颓垣</span></p>
+            <p><span class="ziyin-sequence">音素序列：S--ri-5|Zh--e-4|Bu-u-uan-1|Du--u-1|Fu--u-4|Yv--v-3|Du-u-uan-4|Zi-i-ing-3|Tu-u-ei-2|Yv-v-van-2</span></p>
+            <p><span class="pitch-sequence">润植家音长谱：D#h0442 m0461 l0471|D#j0481 i0491|D#h04a4|D#h04e2|D#ij402 h0422|D#f0444 h0484 i04c4|D#lo404 m0442 m0461 l0471|D#h0482 i04a2 j04c6 i0422|D#j0441 l0451 m0464 o04a2 m04c2 m04e1 l04f1|D#j0404 l0442 l0461 j0471</span></p>
+
+            <div class="audio-wrapper">
+                
+                    <div class="audio-item">
+                        <p class="audio-label">真实录音</p>
+                        <audio controls="">
+                            <source src="assets/audio/似这般都付与断井颓垣_00gt.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/似这般都付与断井颓垣_01bigvgan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-音素级</p>
+                        <audio controls="">
+                            <source src="assets/audio/似这般都付与断井颓垣_02hifigan_phoneme.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">BigVGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/似这般都付与断井颓垣_03bigvgan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+                    <div class="audio-item">
+                        <p class="audio-label">HiFiGAN-字级别</p>
+                        <audio controls="">
+                            <source src="assets/audio/似这般都付与断井颓垣_04hifigan_word.wav" type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                
+            </div>
+        </div>
+    
+</div>
+
+</article>
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2025-04-27T14:09:40+08:00">2025</time>. All rights reserved.
+        </small>
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
